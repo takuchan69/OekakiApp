@@ -1,1 +1,30 @@
+package in.net.find18.OekakiApp;
 
+import  android.view.View;
+import  java.util.ArrayList;
+
+public class CanvasView extends View{
+
+   //List class to manage all lines
+   private ArrayList<Line> = new ArrayList<Line>();
+   //only one line
+   private Line aLine;
+   //set line color
+   private int currentColor = Color.BLACK;
+   //set context
+   private Context context;
+   //init value of line width
+   public int lineWidth = 10;
+   //create constructor
+   public CanvasView(Context context,AttributeSet attrs){
+      super(context,attrs);
+      this.context = context;
+      }
+
+   //delete last line
+   public void undo(){
+    if(lines.size() > 0){
+    lines.remove(lines.size()-1);
+         }
+    invalidate();
+    }
