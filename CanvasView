@@ -28,3 +28,70 @@ public class CanvasView extends View{
          }
     invalidate();
     }
+
+    //delete all lines
+    public void clear(){
+      lines.clear();
+      invalidate();
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas){
+      super.onDraw(canvas);
+      drawAll(canvas);
+    }
+
+    //draw all of lines
+    public void drawAll(Canvas canvas){
+        //make background color as white
+        canvas.drawColor(Color.WHITE);
+        Paint paint = new Paint();
+        //set antialias for true
+        paint.setAntiAlias(true);
+
+        //draw all lines
+        for(Line line:lines){
+          //set Color
+          paint.setColor(line.getColor);
+          //set lineWidth of line
+          paint.setStrokeWidth(lineWidth);
+          //connect points and create a line
+          for(int i = 0;i < (line.getPoints().size() - 1); i++){
+            Point s = line.getPoints().get(i);
+            Point e = line.getPoints().get(i+1);
+            //create a line
+            canvas.drawLine(s.x,s.y,e.x,e.y,paint);
+
+          }
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+       switch (event.getAction()){
+         case MotionEvent.ACTION_DOWN:
+             //create a new line
+             aLine = new Line(currentColor);
+             //add to lines
+             lines.add(aLine);
+             break;
+        case MotionEvent.ACTION_MOVE:
+             int x = (int)event.getX();
+             int y = (int)event.getY();
+             Point p = new Point(x,y);
+             // add point line
+             aLine.addPoint(p);
+             break;
+        case MotionEvent.ACTION_UP:
+             break;
+       }
+
+       //draw line again
+       invalidate();
+       return true;
+    }
+       //set color
+       public void setColor(int c){
+         currentColor = c;
+       }
+  }
